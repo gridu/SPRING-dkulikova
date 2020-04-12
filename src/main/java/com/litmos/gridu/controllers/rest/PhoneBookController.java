@@ -1,15 +1,12 @@
-package com.litmos.gridu.contollers.rest;
+package com.litmos.gridu.controllers.rest;
 
 import com.litmos.gridu.DTOs.PhoneBookRecordDTO;
 import com.litmos.gridu.exceptions.ResourceNotFoundException;
 import com.litmos.gridu.services.PhoneBookService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
 import java.util.List;
 
 @RestController("rest")
