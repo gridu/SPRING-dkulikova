@@ -16,5 +16,4 @@ public class ResourceNotFoundExceptionHandler extends ResponseEntityExceptionHan
     public ResponseEntity handleResourceNotFoundException(Exception ex, WebRequest webRequest){
         return handleExceptionInternal(ex, "Phone book doesn't contain this name", new HttpHeaders(), HttpStatus.FORBIDDEN, webRequest);
     }
-
 }

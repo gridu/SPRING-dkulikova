@@ -1,6 +1,7 @@
 package com.litmos.gridu.repository;
 
 import com.litmos.gridu.exceptions.ResourceNotFoundException;
+import com.litmos.gridu.models.Record;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
@@ -19,14 +20,22 @@ public class InMemoryRepositoryImpl implements InMemoryRepository {
     }
 
     @Override
-    public Map<String, Set<String>> findAll() {
-        return new LinkedHashMap<>(this.data);
+    public Record findAllPhonesByName(String name) throws ResourceNotFoundException {
+        if (data.containsKey(name)){
+            return new Record(name,data.get(name));
+        }
+        else{
+            throw new ResourceNotFoundException();
+        }
     }
 
     @Override
-    public Set<String> findAllPhonesByName(String name) throws ResourceNotFoundException {
+    public void deletePhone(String name, String phone) throws ResourceNotFoundException {
         if (data.containsKey(name)){
-            return data.get(name);
+            data.get(name).remove(phone);
+            if (data.get(name).isEmpty()){
+                deleteRecord(name);
+            }
         }
         else{
             throw new ResourceNotFoundException();
@@ -44,12 +53,16 @@ public class InMemoryRepositoryImpl implements InMemoryRepository {
     }
 
     @Override
-    public void addRecord(String name, Set<String> phones){
-        data.put(name, phones);
+    public List<Record> findAllRecords() {
+        List<Record> records = new ArrayList<>();
+        for (Map.Entry<String, Set<String>> entry : data.entrySet()) {
+            records.add(new Record(entry.getKey(), entry.getValue()));
+        }
+        return records;
     }
 
     @Override
-    public void removeRecord(String name) throws ResourceNotFoundException{
+    public void deleteRecord(String name) throws ResourceNotFoundException {
         if (data.containsKey(name)) {
             data.remove(name);
         }
@@ -58,4 +71,19 @@ public class InMemoryRepositoryImpl implements InMemoryRepository {
         }
     }
 
+    @Override
+    public void updatePhone(String name, String newPhone, String oldPhone) throws ResourceNotFoundException {
+        if (data.containsKey(name)) {
+            data.get(name).remove(oldPhone);
+            data.get(name).add(newPhone);
+        }
+        else{
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @Override
+    public void addRecord(Record record){
+        data.put(record.getName(), record.getPhones());
+    }
 }

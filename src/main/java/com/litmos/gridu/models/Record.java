@@ -1,43 +1,36 @@
 package com.litmos.gridu.models;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Objects;
 import java.util.Set;
 
+@Getter
+@Setter
+@NoArgsConstructor
 public class Record {
-
-    private int id;
     private String name;
-    private String phone;
+    private Set<String> phones;
 
-    public Record(String name, String phone) {
+    public Record(String name, Set<String> phones) {
         this.name = name;
-        this.phone = phone;
+        this.phones = phones;
     }
 
-    public Record() {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Record record = (Record) o;
+        return name.equals(record.name) &&
+                phones.equals(record.phones);
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, phones);
     }
 
 }
