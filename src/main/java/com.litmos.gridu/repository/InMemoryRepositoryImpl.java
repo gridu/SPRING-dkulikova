@@ -16,7 +16,7 @@ public class InMemoryRepositoryImpl implements InMemoryRepository {
     }
 
     public InMemoryRepositoryImpl(Map<String, Set<String>> data) {
-        this.data = new LinkedHashMap<>(data);
+        this.data = data;
     }
 
     @Override
